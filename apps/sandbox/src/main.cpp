@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "PistonEngine/utils/Logger.h"
+#include "piston/core/Logger.h"
 
 int main() {
     piston::Logger* l_logger = piston::Logger::os_GetInstance();

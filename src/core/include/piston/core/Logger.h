@@ -7,7 +7,7 @@
 #include <thread>
 #include <utility>
 
-#include "PistonEngine/containers/BlockingQueue.h"
+#include "piston/core/containers/BlockingQueue.h"
 
 namespace piston {
 

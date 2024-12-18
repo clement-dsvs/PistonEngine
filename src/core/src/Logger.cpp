@@ -2,9 +2,10 @@
 // Created by cleme on 17/12/2024.
 //
 
-#include "PistonEngine/utils/Logger.h"
+#include "piston/core/Logger.h"
 
 #include <iostream>
+#include <mutex>
 #include <utility>
 
 piston::Logger* piston::Logger::m_pInstance{nullptr};
