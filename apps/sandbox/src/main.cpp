@@ -3,8 +3,20 @@
 //
 
 #include <iostream>
-#include <PistonEngine/PistonEngine.h>
+
+#include "piston/core/Logger.hpp"
 
 int main() {
-    start();
+    piston::Logger* l_logger = piston::Logger::os_GetInstance();
+
+    std::cout << "avant" << "\n";
+    l_logger->Info("test");
+
+    l_logger->start();
+    l_logger->Info("test");
+    l_logger->Info("un message");
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    l_logger->stop(true);
+    std::cout << "apres" "\n";
 }

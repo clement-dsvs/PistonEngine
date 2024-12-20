@@ -390,7 +390,7 @@ static void FramePresent(ImGui_ImplVulkanH_Window* wd)
 }
 
 // Main code
-int start()
+int main()
 {
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
