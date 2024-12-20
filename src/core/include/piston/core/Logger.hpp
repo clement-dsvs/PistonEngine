@@ -4,10 +4,11 @@
 
 #ifndef LOGGER_H
 #define LOGGER_H
+
 #include <thread>
 #include <utility>
 
-#include "piston/core/containers/BlockingQueue.h"
+#include "piston/core/containers/BlockingQueue.hpp"
 
 namespace piston {
 

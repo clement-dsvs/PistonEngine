@@ -2,7 +2,7 @@
 // Created by cleme on 17/12/2024.
 //
 
-#include "piston/core/Logger.h"
+#include "piston/core/Logger.hpp"
 
 #include <iostream>
 #include <mutex>
