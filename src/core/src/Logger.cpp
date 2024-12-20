@@ -26,7 +26,7 @@ piston::Logger::Logger()
 }
 
 piston::Logger * piston::Logger::os_GetInstance() {
-    std::lock_guard<std::mutex> l_lock(m_mutex);
+    std::lock_guard l_lock(m_mutex);
     if (m_pInstance == nullptr) {
         m_pInstance = new Logger();
     }
