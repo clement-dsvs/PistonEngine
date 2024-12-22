@@ -10,6 +10,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 find_package(Vulkan REQUIRED)
 add_subdirectory(extern/glfw)
 add_subdirectory(extern/glm)
+add_subdirectory(extern/entt)
 include(ImGui REQUIRED)
 
 add_subdirectory(src)
