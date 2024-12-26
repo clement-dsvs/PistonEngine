@@ -1,0 +1,42 @@
+name: CMake Build for Windows
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+  VULKAN_SDK_VERSION: 1.3.296.0
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Create Files
+      run: mkdir C:/VulkanSDK
+  
+    - name: Cache Vulkan SDK
+      id: cache-vulkan-sdk
+      uses: actions/cache@v3
+      with:
+        path: C:/VulkanSDK/${{ env.VULKAN_SDK_VERSION }}
+        key: vulkan-sdk-${{ runner.os }}-${{ env.VULKAN_SDK_VERSION }}
+
+    - name: Setup Vulkan
+      if: runner.os == 'Windows' && steps.cache-vulkan-sdk.outputs.cache-hit != 'true'
+      run: |
+        $vulkanInstaller = "VulkanSDK-$env:VULKAN_SDK_VERSION-Installer.exe"
+        Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/$env:VULKAN_SDK_VERSION/windows/${vulkanInstaller}" -OutFile $vulkanInstaller
+        Start-Process -FilePath $vulkanInstaller -Wait -ArgumentList @("--accept-licenses", "--default-answer", "--confirm-command", "install")
+        Remove-Item -Path $vulkanInstaller
+      
+    - uses: actions/checkout@v4
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
