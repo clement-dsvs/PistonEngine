@@ -2,7 +2,7 @@ add_library(piston_graphics
         src/Model.cpp
         src/Device.cpp
         include/piston/graphics/Pipeline.hpp
-        src/Pipepile.cpp
+        src/Pipeline.cpp
         include/piston/graphics/Renderer.hpp
         src/Renderer.cpp
         include/piston/graphics/SwapChain.hpp
