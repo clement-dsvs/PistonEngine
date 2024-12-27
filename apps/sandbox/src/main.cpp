@@ -2,21 +2,34 @@
 // Created by cleme on 17/12/2024.
 //
 
-#include <iostream>
-
-#include "piston/core/Logger.hpp"
+#include "piston/graphics/Camera.hpp"
+#include "piston/graphics/Device.hpp"
+#include "piston/graphics/Renderer.hpp"
+#include "piston/window/Window.hpp"
 
 int main() {
-    piston::Logger* l_logger = piston::Logger::os_GetInstance();
+    piston::Window l_window{800, 800, "Vulkan Sandbox"};
+    piston::Device l_device{l_window};
+    piston::Renderer l_renderer{l_window, l_device};
+    piston::Camera l_camera{};
 
-    std::cout << "avant" << "\n";
-    l_logger->Info("test");
+    while (!l_window.o_shouldClose()) {
+        glfwPollEvents();
 
-    l_logger->start();
-    l_logger->Info("test");
-    l_logger->Info("un message");
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        float aspect = l_renderer.getAspectRatio();
+        l_camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100);
 
-    l_logger->stop(true);
-    std::cout << "apres" "\n";
+        if (auto l_commandBuffer = l_renderer.beginFrame())
+        {
+            l_renderer.beginSwapChainRenderPass(l_commandBuffer);
+
+            // Draw Stuff
+
+            l_renderer.endSwapChainRenderPass(l_commandBuffer);
+            l_renderer.endFrame();
+        }
+    }
+
+
+    vkDeviceWaitIdle(l_device.device());
 }

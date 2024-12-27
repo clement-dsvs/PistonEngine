@@ -22,6 +22,8 @@ namespace piston {
         ~Window();
         void o_createWindowSurface(VkInstance a_instance, VkSurfaceKHR* a_surface) const;
 
+        void o_setupImGui();
+
         Window(const Window&) = delete;
         Window& operator=(const Window&) = delete;
 

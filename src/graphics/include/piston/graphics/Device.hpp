@@ -34,7 +34,6 @@ namespace piston {
 
         // Not copyable or movable
         Device(const Device &) = delete;
-
         Device operator=(const Device &) = delete;
 
         Device(Device &&) = delete;
@@ -97,17 +96,17 @@ namespace piston {
         // helper functions
         bool isDeviceSuitable(VkPhysicalDevice device);
 
-        std::vector<const char *> getRequiredExtensions();
+        std::vector<const char *> getRequiredExtensions() const;
 
         bool checkValidationLayerSupport();
 
         QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 
-        void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
+        static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
 
-        void hasGflwRequiredInstanceExtensions();
+        void hasGflwRequiredInstanceExtensions() const;
 
-        bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+        bool checkDeviceExtensionSupport(VkPhysicalDevice device) const;
 
         SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
 

@@ -8,7 +8,6 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #endif
 #include <iostream>
-//#include <tiny_obj_loader.h>
 #ifndef GLM_ENABLE_EXPERIMENTAL
 #define GLM_ENABLE_EXPERIMENTAL
 #endif
@@ -25,8 +24,7 @@ void hashCombine(std::size_t& seed, const T& v, const Rest&... rest)
 template<>
 struct std::hash<piston::Model::Vertex>
 {
-	size_t operator()(piston::Model::Vertex const& vertex) const
-	{
+	size_t operator()(piston::Model::Vertex const& vertex) const noexcept {
 		size_t seed = 0;
 		hashCombine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
 		return seed;
@@ -84,7 +82,7 @@ std::unique_ptr<piston::Model> piston::Model::createModelFromFile(Device& device
 void piston::Model::o_bind(VkCommandBuffer a_commandBuffer)
 {
 	const VkBuffer l_buffers[] = {m_vertexBuffer};
-	constexpr VkDeviceSize l_offsets[] = {0};
+	constexpr VkDeviceSize l_offsets[] = {};
 
 	vkCmdBindVertexBuffers(a_commandBuffer, 0, 1, l_buffers, l_offsets);
 	if (m_hasIndexBuffer)
@@ -93,8 +91,7 @@ void piston::Model::o_bind(VkCommandBuffer a_commandBuffer)
 	}
 }
 
-void piston::Model::o_draw(VkCommandBuffer a_commandBuffer)
-{
+void piston::Model::o_draw(VkCommandBuffer a_commandBuffer) const {
 	if (m_hasIndexBuffer)
 	{
 		vkCmdDrawIndexed(a_commandBuffer, m_indexCount, 1, 0, 0, 0);

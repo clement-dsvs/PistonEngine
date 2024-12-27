@@ -6,7 +6,6 @@
 #define NETWORK_H
 
 
-
 class Network {
 
 };

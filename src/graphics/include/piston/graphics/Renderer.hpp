@@ -19,8 +19,8 @@ namespace piston {
         VkCommandBuffer beginFrame();
         void endFrame();
 
-        void beginSwapChainRenderPass(VkCommandBuffer a_commandBuffer);
-        void endSwapChainRenderPass(VkCommandBuffer a_commandBuffer);
+        void beginSwapChainRenderPass(VkCommandBuffer a_commandBuffer) const;
+        void endSwapChainRenderPass(VkCommandBuffer a_commandBuffer) const;
 
         VkRenderPass getSwapChainRenderPass() const { return m_swapChain->getRenderPass(); }
 

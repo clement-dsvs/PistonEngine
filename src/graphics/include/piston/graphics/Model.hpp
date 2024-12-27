@@ -46,7 +46,7 @@ namespace piston {
 
         void o_bind(VkCommandBuffer a_commandBuffer);
 
-        void o_draw(VkCommandBuffer a_commandBuffer);
+        void o_draw(VkCommandBuffer a_commandBuffer) const;
 
     private:
         void o_createVertexBuffers(const std::vector<Vertex> &a_vertices);

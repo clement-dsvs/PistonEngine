@@ -71,8 +71,7 @@ void piston::Renderer::endFrame()
 	currentFrameIndex = (currentFrameIndex + 1) % SwapChain::MAX_FRAMES_IN_FLIGHT;
 }
 
-void piston::Renderer::beginSwapChainRenderPass(VkCommandBuffer a_commandBuffer)
-{
+void piston::Renderer::beginSwapChainRenderPass(VkCommandBuffer a_commandBuffer) const {
 	assert(isFrameStarted && "Can't call beginSwapChainRenderPass while frame is not in progress");
 	assert(a_commandBuffer == o_getCurrentCommandBuffer() && "Can't begin render pass on command buffer from a different frame");
 
@@ -105,7 +104,7 @@ void piston::Renderer::beginSwapChainRenderPass(VkCommandBuffer a_commandBuffer)
 	vkCmdSetScissor(a_commandBuffer, 0, 1, &scissor);
 }
 
-void piston::Renderer::endSwapChainRenderPass(VkCommandBuffer a_commandBuffer)
+void piston::Renderer::endSwapChainRenderPass(VkCommandBuffer a_commandBuffer) const
 {
 	assert(isFrameStarted && "Can't call endSwapChainRenderPass while frame is not in progress");
 	assert(a_commandBuffer == o_getCurrentCommandBuffer() && "Can't begin render pass on command buffer from a different frame");

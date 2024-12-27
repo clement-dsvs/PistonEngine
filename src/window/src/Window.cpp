@@ -4,6 +4,9 @@
 
 #include "piston/window/Window.hpp"
 
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_vulkan.h>
 #include <stdexcept>
 
 #include <GLFW/glfw3.h>
@@ -23,6 +26,20 @@ void piston::Window::o_createWindowSurface(VkInstance a_instance, VkSurfaceKHR*a
     {
         throw std::runtime_error("Failed to create window surface");
     }
+    ImGui_ImplGlfw_InitForVulkan(m_window, true);
+    ImGui_ImplVulkan_InitInfo init_info{};
+    init_info.Instance = a_instance;
+    init_info.Device = de
+}
+
+void piston::Window::o_setupImGui() {
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    ImGui::StyleColorsDark();
+
 }
 
 void piston::Window::o_initWindow() {

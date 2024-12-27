@@ -15,3 +15,13 @@ include(ImGui REQUIRED)
 
 add_subdirectory(src)
 add_subdirectory(apps)
+
+# Tests
+
+option(PISTON_BUILD_TESTS "Enable Piston tests" OFF)
+
+if (PISTON_BUILD_TESTS)
+    include(CTests)
+    enable_testing()
+    add_subdirectory(tests)
+endif ()
