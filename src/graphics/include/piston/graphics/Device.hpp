@@ -2,55 +2,47 @@
 #define DEVICE_HPP
 
 #include <vulkan/vulkan.hpp>
-#include "piston/window/Window.hpp"
 
 namespace piston {
 
-    struct SwapChainSupportDetails {
-        VkSurfaceCapabilitiesKHR capabilities;
-        std::vector<VkSurfaceFormatKHR> formats;
-        std::vector<VkPresentModeKHR> presentModes;
-    };
 
     struct QueueFamilyIndices {
-        uint32_t graphicsFamily;
-        uint32_t presentFamily;
+        uint32_t m_graphicsFamily;
+        uint32_t m_presentFamily;
         bool graphicsFamilyHasValue = false;
         bool presentFamilyHasValue = false;
         bool isComplete() const { return graphicsFamilyHasValue && presentFamilyHasValue; }
     };
 
     class Device {
-    public:
-#ifdef NDEBUG
-  const bool enableValidationLayers = false;
-#else
-        const bool enableValidationLayers = true;
-#endif
 
-        explicit Device(Window &window);
+    public:
+        static Device &os_getInstance();
+
+    private:
+        Device();
 
         ~Device();
 
+    public:
         // Not copyable or movable
         Device(const Device &) = delete;
+
         Device operator=(const Device &) = delete;
 
         Device(Device &&) = delete;
 
         Device &operator=(Device &&) = delete;
 
-        VkCommandPool getCommandPool() const { return commandPool; }
-        VkDevice device() const { return device_; }
-        VkSurfaceKHR surface() const { return surface_; }
-        VkQueue graphicsQueue() const { return graphicsQueue_; }
-        VkQueue presentQueue() const { return presentQueue_; }
-
-        SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
+        VkCommandPool getCommandPool() const { return m_commandPool; }
+        VkDevice device() const { return m_device; }
+        VkInstance& o_getVkInstance() { return m_instance; }
+        VkQueue graphicsQueue() const { return m_graphicsQueue; }
+        VkQueue presentQueue() const { return m_presentQueue; }
 
         uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
-        QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(physicalDevice); }
+        QueueFamilyIndices findPhysicalQueueFamilies() const { return findQueueFamilies(m_physicalDevice); }
 
         VkFormat findSupportedFormat(
             const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
@@ -78,14 +70,12 @@ namespace piston {
             VkImage &image,
             VkDeviceMemory &imageMemory);
 
-        VkPhysicalDeviceProperties properties;
+        VkPhysicalDeviceProperties m_properties;
 
     private:
         void createInstance();
 
         void setupDebugMessenger();
-
-        void createSurface();
 
         void pickPhysicalDevice();
 
@@ -100,7 +90,7 @@ namespace piston {
 
         bool checkValidationLayerSupport();
 
-        QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+        QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) const;
 
         static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
 
@@ -108,18 +98,21 @@ namespace piston {
 
         bool checkDeviceExtensionSupport(VkPhysicalDevice device) const;
 
-        SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
+        VkInstance m_instance;
+        VkDebugUtilsMessengerEXT m_debugMessenger;
+        VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 
-        VkInstance instance;
-        VkDebugUtilsMessengerEXT debugMessenger;
-        VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-        Window &window;
-        VkCommandPool commandPool;
+    public:
+        [[nodiscard]] VkPhysicalDevice o_physicalDevice() const {
+            return m_physicalDevice;
+        }
 
-        VkDevice device_;
-        VkSurfaceKHR surface_;
-        VkQueue graphicsQueue_;
-        VkQueue presentQueue_;
+    private:
+        VkCommandPool m_commandPool;
+
+        VkDevice m_device;
+        VkQueue m_graphicsQueue;
+        VkQueue m_presentQueue;
 
         const std::vector<const char *> m_validationLayers = {"VK_LAYER_KHRONOS_validation"};
         const std::vector<const char *> m_deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};

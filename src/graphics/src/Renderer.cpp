@@ -3,8 +3,8 @@
 #include <array>
 #include <stdexcept>
 
-piston::Renderer::Renderer(Window& a_window, Device& a_device): m_window(a_window),
-                            m_device(a_device)
+piston::Renderer::Renderer(Window& a_window): m_window(a_window),
+                            m_device(Device::os_getInstance())
 {
 	o_recreateSwapChain();
 	o_createCommandBuffers();
@@ -92,7 +92,7 @@ void piston::Renderer::beginSwapChainRenderPass(VkCommandBuffer a_commandBuffer)
 
 	vkCmdBeginRenderPass(a_commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-	VkViewport viewport{};
+	VkViewport viewport;
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
 	viewport.width = static_cast<float>(m_swapChain->getSwapChainExtent().width);
@@ -148,16 +148,16 @@ void piston::Renderer::o_recreateSwapChain()
 	vkDeviceWaitIdle(m_device.device());
 
 	m_swapChain = nullptr; // do not delete, or for some reason it crashes when resizing the window
-	m_swapChain = std::make_unique<SwapChain>(m_device, l_extent);
+	m_swapChain = std::make_unique<SwapChain>(m_window);
 
 	if (m_swapChain == nullptr)
 	{
-		m_swapChain = std::make_unique<SwapChain>(m_device, l_extent);
+		m_swapChain = std::make_unique<SwapChain>(m_window);
 	}
 	else
 	{
 		std::shared_ptr<SwapChain> l_oldSwapChain = std::move(m_swapChain);
-		m_swapChain = std::make_unique<SwapChain>(m_device, l_extent, l_oldSwapChain);
+		m_swapChain = std::make_unique<SwapChain>(m_window, l_oldSwapChain);
 
 		if (!l_oldSwapChain->compareSwapFormat(*m_swapChain))
 		{

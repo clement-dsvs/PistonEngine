@@ -5,7 +5,7 @@
 #ifndef PIPELINE_HPP
 #define PIPELINE_HPP
 
-#include "piston/graphics/Device.hpp"
+#include "piston/vk/Device.hpp"
 
 #include <vulkan/vulkan.hpp>
 

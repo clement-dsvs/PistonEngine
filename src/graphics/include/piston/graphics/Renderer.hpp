@@ -2,15 +2,15 @@
 #define RENDERER_HPP
 
 #include "piston/window/Window.hpp"
-#include "piston/graphics/Device.hpp"
-#include "piston/graphics/SwapChain.hpp"
+#include "piston/vk/Device.hpp"
+#include "piston/window/SwapChain.hpp"
 
 namespace piston {
     class Renderer
     {
     public:
 
-        Renderer(Window& a_window, Device& a_device);
+        explicit Renderer(Window& a_window);
         ~Renderer();
 
         Renderer(const Renderer&) = delete;

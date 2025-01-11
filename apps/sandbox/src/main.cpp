@@ -3,14 +3,12 @@
 //
 
 #include "piston/graphics/Camera.hpp"
-#include "piston/graphics/Device.hpp"
 #include "piston/graphics/Renderer.hpp"
 #include "piston/window/Window.hpp"
 
 int main() {
     piston::Window l_window{800, 800, "Vulkan Sandbox"};
-    piston::Device l_device{l_window};
-    piston::Renderer l_renderer{l_window, l_device};
+    piston::Renderer l_renderer{l_window};
     piston::Camera l_camera{};
 
     while (!l_window.o_shouldClose()) {
@@ -31,5 +29,5 @@ int main() {
     }
 
 
-    vkDeviceWaitIdle(l_device.device());
+    l_window.o_waitForIdleDevice();
 }

@@ -1,7 +1,7 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
-#include "piston/graphics/Device.hpp"
+#include "piston/vk/Device.hpp"
 
 #include <glm/glm.hpp>
 #include <vulkan/vulkan.hpp>
@@ -42,7 +42,7 @@ namespace piston {
 
         Model &operator=(Model &) = delete;
 
-        static std::unique_ptr<Model> createModelFromFile(Device &device, const std::string filepath);
+        static std::unique_ptr<Model> createModelFromFile(Device &device, std::string filepath);
 
         void o_bind(VkCommandBuffer a_commandBuffer);
 

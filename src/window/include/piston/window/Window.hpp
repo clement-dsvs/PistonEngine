@@ -13,16 +13,20 @@
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
 
+#include "SwapChain.hpp"
+#include "piston/vk/Device.hpp"
+
 
 namespace piston {
 
     class Window {
     public:
-        Window(int a_width, int a_height, const std::string a_windowName);
+        Window(int a_width, int a_height, const std::string& a_windowName);
         ~Window();
-        void o_createWindowSurface(VkInstance a_instance, VkSurfaceKHR* a_surface) const;
 
         void o_setupImGui();
+
+        void o_waitForIdleDevice();
 
         Window(const Window&) = delete;
         Window& operator=(const Window&) = delete;
@@ -30,14 +34,17 @@ namespace piston {
         bool o_shouldClose() const { return glfwWindowShouldClose(m_window); }
 
         VkExtent2D o_getExtent() const { return {static_cast<uint32_t>(m_width), static_cast<uint32_t>(m_height)}; }
+        VkSurfaceKHR o_getSurface() const { return m_surface; }
 
         bool o_wasWindowResized() const { return m_framebufferResized; }
         void o_resetWindowResizedFlag() { m_framebufferResized = false; }
 
         GLFWwindow* o_getGLFWwindow() const { return m_window; }
+        SwapChainSupportDetails o_getSwapChainSupport() const;
 
     private:
         GLFWwindow* m_window;
+        VkSurfaceKHR m_surface;
 
         int m_width;
         int m_height;
@@ -46,7 +53,9 @@ namespace piston {
         std::string m_windowName;
 
         void o_initWindow();
+        void o_createWindowSurface() const;
         static void os_framebufferResizeCallback(GLFWwindow* a_window, int a_width, int a_height);
+
     };
 }
 

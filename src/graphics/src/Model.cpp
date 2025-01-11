@@ -79,9 +79,8 @@ std::unique_ptr<piston::Model> piston::Model::createModelFromFile(Device& device
 	return std::make_unique<piston::Model>(device, l_builder);
 }
 
-void piston::Model::o_bind(VkCommandBuffer a_commandBuffer)
-{
-	const VkBuffer l_buffers[] = {m_vertexBuffer};
+void piston::Model::o_bind(VkCommandBuffer a_commandBuffer) {
+	VkBuffer l_buffers[] = {m_vertexBuffer};
 	constexpr VkDeviceSize l_offsets[] = {};
 
 	vkCmdBindVertexBuffers(a_commandBuffer, 0, 1, l_buffers, l_offsets);
