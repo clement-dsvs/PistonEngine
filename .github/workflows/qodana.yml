@@ -18,11 +18,15 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0  # a full history is required for pull request analysis
+      - name: Install Vulkan SDK
+        uses: humbletim/install-vulkan-sdk@v1.2
+        with:
+          version: 1.4.309.0
+          cache: true
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2025.2
         with:
-          args: --image,jetbrains/qodana-cpp:2025.2-eap
-          # args: --image,jetbrains/qodana-clang:2025.2-eap  # Community version
+          args: --image,jetbrains/qodana-clang:2025.2-eap  # Community version
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
