@@ -15,7 +15,7 @@ jobs:
       checks: write
     steps:
       - name: Pull latest Qodana image
-        run: docker pull jetbrains/qodana-clang:2025.2-eap
+        run: docker pull jetbrains/qodana-cpp:2025.2-eap
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
@@ -28,7 +28,7 @@ jobs:
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2025.2
         with:
-          args: --image,jetbrains/qodana-clang:2025.2-eap  # Community version
+          args: --image,jetbrains/qodana-cpp:2025.2-eap  # Community version
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
